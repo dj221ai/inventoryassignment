@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+	{% block content %}
+		{% if user.is_superuser %}
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="box-element">
+						<table class="tables">
+				<thead>
+					<tr>
+						<th scope="col">Sr.No.</th>
+						<th scope="col">Product Image &nbsp;</th>
+						<th scope="col">Product Name &nbsp;</th>
+						<th scope="col">Price &nbsp;&nbsp;&nbsp;</th>
+						<th scope="col">Remaining Quantity &nbsp;</th>
+						<th scope="col">Status &nbsp;</th>
+						<th scope="col">Action &nbsp;</th>
+					</tr>
+				</thead>
+				{% for object in object_list %}
+					<tbody>
+						<tr>
+							<th scope="row">{{ object.id }}</th>
+							<td><img class="row-image" src="{{object.imageURL}}" width="50" height="80"
+							onerror="this.src='{% static '/images/noimage.jpg' %}'"></td>
+							<td>{{ object.product_name }}</td>
+							<td>{{ object.price }}&nbsp;&nbsp;&nbsp;</td>
+							<td>{{ object.quantity }}</td>
+							<td>{% if object.status == True %}
+									Active
+								{% else %}
+									Inactive
+								{% endif %}
+								</td>
+							<td>
+								<a href="{% url 'product:update' pk=object.pk %}">
+									<button class="btn btn-info">
+										Edit
+									</button>
+								</a>
+								<a href="{% url 'product:delete' pk=object.pk %}">
+									<button class="btn btn-danger">
+										Delete
+									</button>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				{% endfor %}
+			</table>
+					</div>
+				</div>
+			</div>
+		{% else %}
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="box-element">
+						<table class="tables">
+				<thead>
+					<tr>
+						<th scope="col">Sr.No.</th>
+						<th scope="col">Product Image &nbsp;</th>
+						<th scope="col">Product Name &nbsp;</th>
+						<th scope="col">Price &nbsp;&nbsp;&nbsp;</th>
+						<th scope="col">Remaining Quantity &nbsp;</th>
+						<th scope="col">Status &nbsp;</th>
+						<th scope="col">Action &nbsp;</th>
+					</tr>
+				</thead>
+				{% for object in object_list %}
+					<tbody>
+						<tr>
+							<th scope="row">{{ object.id }}</th>
+							<td><img class="row-image" src="{{object.imageURL}}" width="50" height="80"
+							onerror="this.src='{% static '/images/noimage.jpg' %}'"></td>
+							<td>{{ object.product_name }}</td>
+							<td>{{ object.price }}&nbsp;&nbsp;&nbsp;</td>
+							<td>{{ object.quantity }}</td>
+							<td>{% if object.status == True %}
+									Active
+								{% else %}
+									Inactive
+								{% endif %}
+								</td>
+							<td>
+								<a href="#">
+									<button class="btn btn-dark">
+										Add to Cart
+									</button>
+								</a>
+							</td>
+
+						</tr>
+					</tbody>
+				{% endfor %}
+			</table>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+{% endblock %}
