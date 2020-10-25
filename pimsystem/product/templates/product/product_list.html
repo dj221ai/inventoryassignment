@@ -22,10 +22,10 @@
 						<div style="flex:2"><p>{{item.product_name}}</p></div>
 						<div style="flex:1"><p>₹{{item.price|floatformat:2}}</p></div>
 						<div style="flex:1">
-							<p class="quantity">{{item.quantity}}</p>
+							<p class="quantity">{{item.get_remaining}}</p>
 						</div>
 						<div style="flex:1"><p>
-							{% if item.status == True %}
+							{% if item.status == True and item.get_remaining > 0 %}
 								Active
 							{% else %}
 								Inactive
@@ -71,10 +71,10 @@
 					<div style="flex:2"><p>{{item.product_name}}</p></div>
 					<div style="flex:1"><p>₹{{item.price|floatformat:2}}</p></div>
 					<div style="flex:1">
-						<p class="quantity">{{item.quantity}}</p>
+						<p class="quantity">{{item.get_remaining}}</p>
 					</div>
 					<div style="flex:1"><p>
-						{% if item.status == True %}
+						{% if item.status == True and item.get_remaining > 0 %}
 							Active
 						{% else %}
 							Inactive

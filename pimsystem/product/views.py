@@ -22,8 +22,15 @@ class ProductListView(LoginRequiredMixin, ListView):
     model = ProductInformation
     template_name = 'product/product_list.html'
 
-    # def get_queryset(self):
-    #     return ProductInformation.objects.filter(user=self.request.user)
+    def get(self, request, *args, **kwargs):
+        context = {}
+        quantities = ProductInformation.objects.all()
+        context['object_list'] = quantities
+        customer = request.user
+        cart, created = Cart.objects.get_or_create(customer=customer)
+        cartItems = cart.get_cart_items
+        context['cartItems'] = cartItems
+        return render(request, self.template_name, context=context)
 
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
@@ -75,20 +82,27 @@ def update_item(request):
 
     cartItem, created = CartItem.objects.get_or_create(cart=cart, product=product)
 
+    # remaining_items = CartItem.objects.all()
+    # for r in remaining_items:
+    #     print('r.quantity is', r.quantity, r.remaining_quantity_in_inventory)
+
+    # for item in remaining_items:
+    #     print('r.quantity is', item.remaining_quantity_in_inventory)
+
     if action == 'add':
         cartItem.quantity = (cartItem.quantity + 1)
     elif action == 'remove':
         cartItem.quantity = (cartItem.quantity - 1)
+    elif action == 'delete':
+        cartItem.quantity = 0
+        cartItem.delete()
 
     cartItem.save()
 
     if cartItem.quantity <= 0:
         cartItem.delete()
-    return JsonResponse("it is added", safe=False)
+    return JsonResponse("data has been updated!!", safe=False)
 
-
-def delete_from_cart(request):
-    return redirect('product:productList')
 
 
 

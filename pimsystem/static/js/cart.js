@@ -9,10 +9,12 @@ for (i = 0; i < updateBtns.length; i++) {
 		console.log('productId:', productId, 'Action:', action)
 		console.log('USER:', user)
 
-		if (user == 'AnonymousUser'){
-			addCookieItem(productId, action)
+		if (user !== 'AnonymousUser'){
+		    updateUserOrder(productId, action)
+//			addCookieItem(productId, action)
 		}else{
-			updateUserOrder(productId, action)
+//			updateUserOrder(productId, action)
+			addCookieItem(productId, action)
 		}
 	})
 }
@@ -56,6 +58,10 @@ function addCookieItem(productId, action){
 			console.log('Item should be deleted')
 			delete cart[productId];
 		}
+	}
+	if (action == 'delete'){
+	    console.log("deleting item from js!!");
+	    delete cart[productId];
 	}
 	console.log('CART:', cart)
 	document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"

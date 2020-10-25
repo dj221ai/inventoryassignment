@@ -7,15 +7,6 @@
 
 				<a  class="btn btn-outline-dark" href="{% url 'product:productList' %}">&#x2190; Add More Items</a>
 
-				<br>
-				<br>
-				<table class="table">
-					<tr>
-						<th><h5>Items: <strong>{{cart.get_cart_items}}</strong></h5></th>
-						<th><h5>Total:<strong>₹{{cart.get_cart_total}}</strong></h5></th>
-					</tr>
-				</table>
-
 			</div>
 
 			<br>
@@ -42,16 +33,23 @@
 						</div>
 					</div>
 					<div style="flex:1"><p>₹{{item.get_total}}</p></div>
+<!--					<div style="flex:1"><p>{{item.remaining_quantity_in_inventory}}</p></div>-->
 					<div style="flex:1"><p>
-                        <a href="{% url 'product:delete_item' %}">
-									<button class="btn btn-danger" data-action="remove">
+									<button class="btn btn-danger update-cart" data-product="{{item.product.id}}" data-action="delete">
 										Delete
 									</button>
-								</a>
                     </p></div>
 				</div>
 				{% endfor %}
 			</div>
+				<br>
+				<br>
+				<table class="table">
+					<tr>
+						<th><h5>Items: <strong>{{cart.get_cart_items}}</strong></h5></th>
+						<th><h5>Total:<strong>₹{{cart.get_cart_total}}</strong></h5></th>
+					</tr>
+				</table>
 		</div>
 	</div>
 {% endblock content %}

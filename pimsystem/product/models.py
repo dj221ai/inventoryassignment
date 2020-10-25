@@ -20,6 +20,12 @@ class ProductInformation(models.Model):
             url = ''
         return url
 
+    @property
+    def get_remaining(self):
+        productquants = self.cartitem_set.all()
+        remaining = sum([item.remaining_quantity_in_inventory for item in productquants])
+        return remaining
+
 
 class Cart(models.Model):
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
@@ -40,6 +46,12 @@ class Cart(models.Model):
         total = sum([item.quantity for item in cartitems])
         return total
 
+    # @property
+    # def get_remaining(self):
+    #     product_quants = self.cartitem_set.all()
+    #     remaining = sum([item.remaining_quantity_in_inventory for item in product_quants])
+    #     return remaining
+
 
 class CartItem(models.Model):
     product = models.ForeignKey(ProductInformation, on_delete=models.SET_NULL, null=True)
@@ -56,9 +68,10 @@ class CartItem(models.Model):
         return total
 
     @property
-    def get_remaining_quantity(self):
+    def remaining_quantity_in_inventory(self):
         remaining_quantity = self.product.quantity - self.quantity
-        print("remaining quantity is", remaining_quantity)
+        # print('remaining_quantity', remaining_quantity)
         return remaining_quantity
+
 
 
